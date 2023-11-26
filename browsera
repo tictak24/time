@@ -1,0 +1,21 @@
+# Use the dorowu/ubuntu-desktop-lxde-vnc image as the base image
+FROM dorowu/ubuntu-desktop-lxde-vnc
+
+# Install a web browser (Firefox in this case), an RDP client, and ngrok
+RUN apt-get update && apt-get install -y firefox freerdp-x11 unzip
+RUN wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip && \
+    unzip ngrok.zip && \
+    mv ngrok /usr/local/bin && \
+    rm ngrok.zip
+
+# Set the working directory to the home directory
+WORKDIR /root/Downloads
+
+# Expose the VNC and ngrok ports
+EXPOSE 5900 4040
+
+# Set ngrok authentication token
+ENV NGROK_AUTH=2WICPxgleP1tHxWRX01LIP9bNXB_7BSkAv6G23BTg4aVDonAP
+
+# Start the LXDE desktop environment, VNC server, and ngrok
+CMD ["bash", "-c", "cd /root/novnc && ./utils/launch.sh --vnc localhost:5900 & ngrok http -authtoken $NGROK_AUTH 6080"]
