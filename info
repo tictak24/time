@@ -1,1 +1,1 @@
-udocker --allow-root  build -t browser-rdp-ngrok && udocker --allow-root  run -p 5900:5900 -p 4040:4040 browser-rdp-ngrok
+udocker --allow-root  build -t browsera && udocker --allow-root  run -p 5900:5900 -p 4040:4040 browsera
